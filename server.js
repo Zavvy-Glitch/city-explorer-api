@@ -1,12 +1,12 @@
 'use strict';
 
 const weather = require('./data/weather.json');
-
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
-
 dotenv.config();
+app.use(cors());
 
 const PORT = process.env.PORT || 3001;
 
@@ -18,7 +18,7 @@ app.get('/weather', (req, res) => {
       this.description = description;
     }
   }
-  let searchQuery = 'Seattle';
+  let searchQuery = req.query.key;
   let queryData = weather.find(value => value.city_name === searchQuery);
 
   let days = [];
