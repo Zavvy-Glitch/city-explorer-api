@@ -1,3 +1,4 @@
+
 # city-explorer-api
 
 **Author**: Chattray Chea
@@ -19,7 +20,7 @@ Contains server data plots needed for APP functionality.
 01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
 
 ## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+![image](https://user-images.githubusercontent.com/84699682/126555901-ef4c5b9e-ad19-4f65-8d57-1a6fc332b6d6.png)
 
 Name of feature: Custom Server using Node and Express
 
