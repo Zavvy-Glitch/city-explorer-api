@@ -22,8 +22,7 @@ async function getWeather(req, res) {
   let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.REACT_APP_WEATHERKEY}&city=${searchQuery}`;
 
   class Forecast {
-    constructor (city, date, temp, description, uv ) {
-      this.city = city;
+    constructor (date, temp, description, uv ) {
       this.date = date;
       this.temprature = temp;
       this.description = description;
@@ -35,7 +34,7 @@ async function getWeather(req, res) {
     // console.log(weather);
     let weatherArray = [];
     weather.data.data.map((value, idx) => {
-      weatherArray.push(new Forecast(value.city_name, `Date:${value.datetime}`, `Temp of ${value.temp}`, `Sky Conditions: ${value.weather.description}`, `UV index: ${value.uv}`));
+      weatherArray.push(new Forecast(`Date:${value.datetime}`, `Temp of ${value.temp}`, `Sky Conditions: ${value.weather.description}`, `UV index: ${value.uv}`));
     });
 
     res.send(weatherArray);
@@ -49,7 +48,7 @@ async function getWeather(req, res) {
 app.get('/movies', getMovies);
 async function getMovies(req, res) {
   let searchQuery = req.query.searchQuery;
-  let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIEKEY}&language=en-US&query=${searchQuery}&page=1&include_adult=true`;
+  let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIEKEY}&language=en-US&query=${searchQuery}&page=1`;
   console.log(url.data);
   class Movie {
     constructor (title, overView, averageVotes, totalVotes, imageUrl, popularity, releasedOn){
@@ -64,11 +63,6 @@ async function getMovies(req, res) {
   }
   try {
     let movie = await axios.get(url);
-    // console.log(movie);
-    // let movieArray = [];
-    // movie.data.results.map((value, idx) => {
-    //   movieArray.push(new Movie(value.title, value.overview, value.vote_average, value.vote_count, value.poster_path, value.popularity, value.release_date));
-    // });
     let topMovies = movie.data.results;
     let sortedTopMovies = topMovies.sort((a, b) => b.popularity - a.popularity);
 
@@ -80,7 +74,7 @@ async function getMovies(req, res) {
     res.send(newMovieArray);
   }
   catch(err){
-    console.log('ERROR: Unable to Process!', err);
+    res.status(500).send(err);
   }
 }
 
