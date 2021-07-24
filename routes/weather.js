@@ -4,13 +4,11 @@ const axios = require('axios');
 const cache = require('./cache.js');
 
 async function getWeather(req, res) {
-  // let lat = req.query.lat;
-  // let lon = req.query.lon;
-  console.log(req.query.searchQuery, 'weather');
-  let searchQuery = req.query.searchQuery;
+  let lat = req.query.lat;
+  let lon = req.query.lon;
+  const searchQuery = req.query.searchQuery;
   const key = 'weather-' + searchQuery;
-
-  let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.REACT_APP_WEATHERKEY}&city=${searchQuery}`;
+  const url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.REACT_APP_WEATHERKEY}&city=${searchQuery}&lat=${lat}&lon=${lon}`;
 
   try {
     if(!cache[key]) {
@@ -27,11 +25,9 @@ async function getWeather(req, res) {
             }
           }
           let weather = data;
-          // console.log(weather.data);
           let weatherArray = weather.data.data.map((value, idx) => {
             return new Forecast(`Date:${value.datetime}`, `Temp of ${value.temp}`, `Sky Conditions: ${value.weather.description}`, `UV index: ${value.uv}`);});
           cache[key].data = weatherArray;
-          // getWeather(data.data)
           res.send(weatherArray);
         });
     }
