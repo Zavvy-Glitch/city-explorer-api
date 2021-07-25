@@ -17,6 +17,7 @@ async function getMovies(req, res) {
           const topMovies = data.data.results;
           const sortedTopMovies = topMovies.sort((a, b) => b.popularity - a.popularity);
           const newMovieArray = [];
+
           class Movie {
             constructor (title, overView, averageVotes, totalVotes, imageUrl, popularity, releasedOn){
               this.title = title;
@@ -33,6 +34,7 @@ async function getMovies(req, res) {
             newMovieArray.push(new Movie(sortedTopMovies[i].title, sortedTopMovies[i].overview, sortedTopMovies[i].vote_average, sortedTopMovies[i].vote_count, sortedTopMovies[i].poster_path, sortedTopMovies[i].popularity, sortedTopMovies[i].release_date ));
           }
           cache[key].data = newMovieArray;
+          console.log(cache[key].data);
           res.send(newMovieArray);
         });
     }

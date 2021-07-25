@@ -16,6 +16,7 @@ async function getWeather(req, res) {
       cache[key].timestamp = Date.now();
       axios.get(url)
         .then(data => {
+
           class Forecast {
             constructor (date, temp, description, uv ) {
               this.date = date;
@@ -24,10 +25,12 @@ async function getWeather(req, res) {
               this.uv = uv;
             }
           }
+
           let weather = data;
           let weatherArray = weather.data.data.map((value, idx) => {
             return new Forecast(`Date:${value.datetime}`, `Temp of ${value.temp}`, `Sky Conditions: ${value.weather.description}`, `UV index: ${value.uv}`);});
           cache[key].data = weatherArray;
+          console.log(cache[key].data);
           res.send(weatherArray);
         });
     }

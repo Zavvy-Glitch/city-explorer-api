@@ -18,6 +18,10 @@ const getMovies = require('./routes/movies.js');
 
 app.get('/weather', getWeather);
 app.get('/movies', getMovies);
+app.use('*', errorHandler);
 
+function errorHandler(req, res) {
+  res.status(500).send('Error: Something is Missing. Please Check Your URL');
+}
 
 app.listen(PORT, () => console.log(`Running Server on ${PORT}`));
